@@ -1,0 +1,127 @@
+<html>
+<head>
+<title>TESTING RESIZE</title>
+
+<style type="text/css">
+  #stats {
+    position: fixed;
+    right: 1em;
+    top: 1em;
+    text-align: right;
+    width: 100px;
+    font-family: Helvetica;
+    background-color: IndianRed;
+    opacity: .76;
+    padding: .5em;
+  }
+
+  #CENTER {
+    margin: 0;
+    padding: .07em;
+    font-size: 20pt;
+    border-width: 10px;
+    border-style: solid;
+    border-color: gray;
+    border-radius: 10px;
+    color: gray;
+    font-family: Helvetica;
+  }
+
+  #FUCK { display: inline; }
+</style>
+
+<script src="res/jquery-1.7.1.min.js" type="text/javascript"></script>
+<script src="res/teaser.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+function load () {
+  var xoxo = document.getElementById("CENTER");
+  xoxo.style.fontSize = "20pt";
+}
+
+function sizeUp () {
+  var xoxo = document.getElementById("CENTER"),
+      pos = utils.getPosition(xoxo),
+      vp = utils.getViewport()
+      ;
+
+  xoxo.style.position = "fixed";
+  xoxo.style.display = "inline";
+
+  function ss () {
+
+    var dims = {
+      height : $(xoxo).outerHeight(),
+      width : $(xoxo).outerWidth()
+    };
+
+    var diff_height = $(xoxo).outerHeight(true) - $(xoxo).height();
+    var margin = 30;
+
+    var pt = xoxo.style.fontSize.replace("pt", "");
+
+    var y_scale = (vp.height - margin) / dims.height;
+
+    var db_str = "BEFORE: " + vp.height + "/" + dims.height + "=" + y_scale + " (" + Math.floor(y_scale) + ")";
+
+    console.log(db_str);
+    console.log(diff_height);
+
+    pt = Math.floor(pt * y_scale);
+    xoxo.style.fontSize = pt + "pt";
+
+    dims = {
+      height : $(xoxo).outerHeight(),
+      width : $(xoxo).outerWidth()
+    };
+
+    db_str = "AFTER: " + vp.height + "/" + dims.height + "=" + y_scale + " (" + Math.floor(y_scale) + ")";
+    console.log(db_str);
+    console.log(diff_height);
+  }
+
+  ss();
+  ss();
+
+
+  pos = utils.getPosition(xoxo);
+  utils.centerAt(xoxo);
+  var debug_string = vp.width + "x" + vp.height + "  " + pos.width + "x" + $(xoxo).outerHeight() + "  ";
+
+  // console.log(debug_string);
+}
+
+function resizeStats () {
+  //
+  var vp = utils.getViewport(),
+      sr = utils.getScreenResolution(),
+      stats = document.getElementById("stats");
+      ;
+
+  //
+  var str = "[" + vp.width + ", " + vp.height + "]";
+  stats.innerHTML = str;
+}
+
+
+window.addEventListener("load", load, false);
+
+window.addEventListener("load", resizeStats, false);
+window.addEventListener("resize", resizeStats, false);
+
+window.addEventListener("load", sizeUp, false);
+window.addEventListener("resize", sizeUp, false);
+</script>
+</head>
+<body onresize="">
+
+  <div id="stats"> </div>
+
+  <!-- The only thing in the world -->
+  <div id="CENTER">
+    <div id="FUCK">WHY</div>
+  </div>
+
+</body>
+</html>
